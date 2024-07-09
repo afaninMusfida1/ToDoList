@@ -1,9 +1,9 @@
-<?php
+<!-- <?php
 include 'config.php';
 
 // Mengambil semua tugas
 $result = $conn->query("SELECT * FROM tasks");
-?>
+?> -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -127,19 +127,19 @@ $result = $conn->query("SELECT * FROM tasks");
         </form>
 
         <ul>
-            <?php while ($row = $result->fetch_assoc()): ?>
+            <!-- <?php while ($row = $result->fetch_assoc()): ?>
                 <li>
                     <?php echo htmlspecialchars($row['title']); ?>
                     <a href="config.php?delete=<?php echo $row['id']; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus tugas ini?')">
                         <i class="fas fa-trash-alt"></i>
                     </a>
                 </li>
-            <?php endwhile; ?>
+            <?php endwhile; ?> -->
         </ul>
     </div>
 </body>
 </html>
 
-<?php
+<!-- <?php
 $conn->close();
-?>
+?> -->

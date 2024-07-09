@@ -1,7 +1,0 @@
-[build]
-  functions = "functions"
-
-[[redirects]]
-  from = "/*"
-  to = "/.Todolist/index" 
-  status = 200
