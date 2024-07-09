@@ -1,22 +1,39 @@
 <?php
-include 'config.php';
+$servername = "127.0.0.1";
+$username = "root";
+$password = "";
+$dbname = "todo_list";
+
+// Membuat koneksi
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Mengecek koneksi
+if ($conn->connect_error) {
+    die("Koneksi gagal: " . $conn->connect_error);
+}
+
+// Menambah tugas baru
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title'])) {
+    $title = $_POST['title'];
+    $stmt = $conn->prepare("INSERT INTO tasks (title) VALUES (?)");
+    $stmt->bind_param("s", $title);
+    $stmt->execute();
+    $stmt->close();
+    header("Location: index.php"); // Mengarahkan kembali ke index.php setelah menambah tugas
+    exit();
+}
+
+// Menghapus tugas
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+    $stmt = $conn->prepare("DELETE FROM tasks WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $stmt->close();
+    header("Location: index.php"); // Mengarahkan kembali ke index.php setelah menghapus tugas
+    exit();
+}
 
 // Mengambil semua tugas
 $result = $conn->query("SELECT * FROM tasks");
-
-// Outputkan hasil dalam format HTML
-$html_output = '<ul>';
-while ($row = $result->fetch_assoc()) {
-    $html_output .= '<li>';
-    $html_output .= htmlspecialchars($row['title']);
-    $html_output .= '<a href="config.php?delete=' . $row['id'] . '" onclick="return confirm(\'Apakah Anda yakin ingin menghapus tugas ini?\')">';
-    $html_output .= '<i class="fas fa-trash-alt"></i></a>';
-    $html_output .= '</li>';
-}
-$html_output .= '</ul>';
-
-$conn->close();
-
-// Simpan hasil dalam file HTML
-file_put_contents('index.html', $html_output);
 ?>
